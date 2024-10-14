@@ -1,7 +1,9 @@
 import edu.grinnell.csc207.util.AssociativeArray;
 import edu.grinnell.csc207.util.NullKeyException;
 import java.util.NoSuchElementException;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 
@@ -38,7 +40,52 @@ public class AACMappings implements AACPage {
 		categories = new AssociativeArray<>();
 		currCatName = "";
 		currentCategory = null;
-	} //AACMappings
+
+		loadMap(filename);
+	} // AACMappings
+
+	/**
+	 * This function reads a file, then proceeds to load the mappings from the file
+	 * and converts it to the data structure categories.
+	 * 
+	 * @param filename the name of the file to be read.
+	 */
+	private void loadMap(String filename) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line;
+			AACCategory category = null;
+			String imageLoc = null;
+
+			while ((line = reader.readLine()) != null) {
+				String[] args = line.split(" ");
+				if (!line.startsWith(">")) {
+					imageLoc = args[0];
+					String categoryName = args[1];
+					if (args.length > 2) {
+						for (int i = 2; i < args.length; i++) {
+							categoryName += " " + args[i];
+						} // if statement
+					} // if statmenet
+					category = new AACCategory(categoryName);
+					this.categories.set(imageLoc, category);
+				} else {
+					String itemLoc = args[0].substring(1);
+					String text = args[1];
+					
+					if (args.length > 2) {
+						for (int i = 2; i < args.length; i++) {
+							text += " " + args[i];
+						} // for loop
+					} // if statement
+					if (category != null) {
+						category.addItem(itemLoc, text);
+					} // if state,ent
+				} // else
+			} // while
+		} catch (Exception e) {
+			System.out.println("error.");
+		} // catch
+	} // loadmap
 
 	/**
 	 * Given the image location selected, it determines the action to be taken. This can be updating
@@ -138,7 +185,7 @@ public class AACMappings implements AACPage {
 		} catch (Exception e) {
 			System.out.println("error.");
 		} // catch
-	} //writreToFile
+	} // writreToFile
 
 	/**
 	 * Adds the mapping to the current category (or the default category if that is the current
