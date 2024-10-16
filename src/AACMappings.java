@@ -83,7 +83,7 @@ public class AACMappings implements AACPage {
 				} // else
 			} // while
 		} catch (Exception e) {
-			System.out.println("error.");
+			System.out.println("Error in fetching and mapping file.");
 		} // catch
 	} // loadmap
 
@@ -183,7 +183,7 @@ public class AACMappings implements AACPage {
 			} // for loop
 			writer.close();
 		} catch (Exception e) {
-			System.out.println("error.");
+			System.out.println("Error in writing to file.");
 		} // catch
 	} // writreToFile
 
@@ -199,7 +199,7 @@ public class AACMappings implements AACPage {
 			try {
 				this.categories.set(imageLoc, new AACCategory(text));
 			} catch (NullKeyException e) {
-				System.out.println("error.");
+				System.out.println("Failure, key is null.");
 			} // catch
 		} else {
 			currentCategory.addItem(imageLoc, text);

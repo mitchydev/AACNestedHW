@@ -36,7 +36,7 @@ public class AACCategory implements AACPage {
 		try {
 			this.thing.set(imageLoc, text);
 		} catch (NullKeyException e) {
-			System.out.println("Error!");
+			System.out.println("Failure, Null key!");
 		} // Catch
 	} // addItem
 
@@ -73,7 +73,7 @@ public class AACCategory implements AACPage {
 		try {
 			return this.thing.get(imageLoc);
 		} catch (KeyNotFoundException e) {
-			throw new NoSuchElementException("error");
+			throw new NoSuchElementException("Error, no such element in category!");
 		} // catch
 	}
 
